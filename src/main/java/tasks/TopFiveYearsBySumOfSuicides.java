@@ -4,12 +4,16 @@ import model.CountryYearSuicideAmount;
 import model.SuicideInfoRecord;
 import org.apache.spark.sql.Dataset;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TopFiveYearsBySumOfSuicides {
 
-  public Map<String, Integer> getTopFive(Dataset<SuicideInfoRecord> data) {
+  public Map<String, Integer> get(Dataset<SuicideInfoRecord> data) {
     Map<String, Integer> map = getSumOfSuicidesInCountryByYear(data);
     Map<String, Integer> sortedMap = getSortedByValueMap(map);
     return sortedMap.entrySet().stream()
@@ -20,7 +24,7 @@ public class TopFiveYearsBySumOfSuicides {
                             (oldValue, newValue) -> oldValue, LinkedHashMap::new));
   }
 
-  public Map<String, Integer> getSumOfSuicidesInCountryByYear(
+  private Map<String, Integer> getSumOfSuicidesInCountryByYear(
           Dataset<SuicideInfoRecord> data) {
     List<CountryYearSuicideAmount> timeAndAmount = getCountryYearSuicideAmountList(data);
     Map<String, Integer> map = new HashMap<>();
@@ -36,22 +40,17 @@ public class TopFiveYearsBySumOfSuicides {
     return map;
   }
 
-  public LinkedHashMap<String, Integer> getSortedByValueMap(Map<String, Integer> map) {
+  private LinkedHashMap<String, Integer> getSortedByValueMap(Map<String, Integer> map) {
     return map.entrySet().stream()
             .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                     (oldValue, newValue) -> oldValue, LinkedHashMap::new));
   }
 
-  private List<CountryYearSuicideAmount> getCountryYearSuicideAmountList(Dataset<SuicideInfoRecord> data) {
-    List<CountryYearSuicideAmount> timeAndAmount = new ArrayList<>();
-    List<SuicideInfoRecord> list = data.collectAsList();
-    for (SuicideInfoRecord record : list) {
-      timeAndAmount.add(
-              new CountryYearSuicideAmount(
-                      record.getCountryAndYear(),
-                      Integer.valueOf(record.getAmountOfSuicides())));
-    }
-    return timeAndAmount;
+  private List<CountryYearSuicideAmount> getCountryYearSuicideAmountList(
+          Dataset<SuicideInfoRecord> data) {
+    return data.collectAsList().stream().map(e ->
+            new CountryYearSuicideAmount(e.getCountryAndYear(), e.getAmountOfSuicides()))
+            .collect(Collectors.toList());
   }
 }

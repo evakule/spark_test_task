@@ -8,9 +8,9 @@ public class SuicideInfoRecord implements Serializable {
   private String sex;
   private String age;
 
-  private String amountOfSuicides;
+  private Integer amountOfSuicides;
   private String population;
-  private String suicidesPer100k;
+  private Double suicidesPer100k;
   private String countryAndYear;
 
   private String HDIForYear;
@@ -23,9 +23,9 @@ public class SuicideInfoRecord implements Serializable {
           String year,
           String sex,
           String age,
-          String amountOfSuicides,
+          Integer amountOfSuicides,
           String population,
-          String suicidesPer100k,
+          Double suicidesPer100k,
           String countryAndYear,
           String HDIForYear,
           String GDPForYear,
@@ -49,7 +49,7 @@ public class SuicideInfoRecord implements Serializable {
   public SuicideInfoRecord() {
   }
 
-  public String getAmountOfSuicides() {
+  public Integer getAmountOfSuicides() {
     return amountOfSuicides;
   }
 
@@ -89,7 +89,7 @@ public class SuicideInfoRecord implements Serializable {
     this.age = age;
   }
 
-  public void setAmountOfSuicides(String amountOfSuicides) {
+  public void setAmountOfSuicides(Integer amountOfSuicides) {
     this.amountOfSuicides = amountOfSuicides;
   }
 
@@ -101,11 +101,11 @@ public class SuicideInfoRecord implements Serializable {
     this.population = population;
   }
 
-  public String getSuicidesPer100k() {
+  public Double getSuicidesPer100k() {
     return suicidesPer100k;
   }
 
-  public void setSuicidesPer100k(String suicidesPer100k) {
+  public void setSuicidesPer100k(Double suicidesPer100k) {
     this.suicidesPer100k = suicidesPer100k;
   }
 
