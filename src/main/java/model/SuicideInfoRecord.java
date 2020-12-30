@@ -15,7 +15,7 @@ public class SuicideInfoRecord implements Serializable {
 
   private String HDIForYear;
   private String GDPForYear;
-  private String GDPPerOnePerson;
+  private Integer GDPPerOnePerson;
   private String generationType;
 
   public SuicideInfoRecord(
@@ -29,7 +29,7 @@ public class SuicideInfoRecord implements Serializable {
           String countryAndYear,
           String HDIForYear,
           String GDPForYear,
-          String GDPPerOnePerson,
+          Integer GDPPerOnePerson,
           String generationType
   ) {
     this.country = country;
@@ -129,11 +129,11 @@ public class SuicideInfoRecord implements Serializable {
     this.GDPForYear = GDPForYear;
   }
 
-  public String getGDPPerOnePerson() {
+  public Integer getGDPPerOnePerson() {
     return GDPPerOnePerson;
   }
 
-  public void setGDPPerOnePerson(String GDPPerOnePerson) {
+  public void setGDPPerOnePerson(Integer GDPPerOnePerson) {
     this.GDPPerOnePerson = GDPPerOnePerson;
   }
 
@@ -143,5 +143,23 @@ public class SuicideInfoRecord implements Serializable {
 
   public void setGenerationType(String generationType) {
     this.generationType = generationType;
+  }
+
+  @Override
+  public String toString() {
+    return "SuicideInfoRecord{" +
+            "country='" + country + '\'' +
+            ", year='" + year + '\'' +
+            ", sex='" + sex + '\'' +
+            ", age='" + age + '\'' +
+            ", amountOfSuicides=" + amountOfSuicides +
+            ", population='" + population + '\'' +
+            ", suicidesPer100k=" + suicidesPer100k +
+            ", countryAndYear='" + countryAndYear + '\'' +
+            ", HDIForYear='" + HDIForYear + '\'' +
+            ", GDPForYear='" + GDPForYear + '\'' +
+            ", GDPPerOnePerson='" + GDPPerOnePerson + '\'' +
+            ", generationType='" + generationType + '\'' +
+            '}';
   }
 }

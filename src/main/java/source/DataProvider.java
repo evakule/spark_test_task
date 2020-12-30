@@ -25,10 +25,12 @@ public class DataProvider {
             .option("sep", ",")
             .option("inferSchema", "true")
             .option("header", "true")
-            .load(PATH_TO_DATA_FILE).toDF(HEADERS).as(encoder);
+            .load(PATH_TO_DATA_FILE)
+            .toDF(HEADERS)
+            .as(encoder);
   }
 
-  private static SparkSession getSparkSession() {
+  private SparkSession getSparkSession() {
     return SparkSession.builder()
             .appName("humanlves")
             .config("spark.master", "local")

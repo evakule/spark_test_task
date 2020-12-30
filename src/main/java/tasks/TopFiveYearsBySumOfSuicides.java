@@ -1,6 +1,6 @@
 package tasks;
 
-import model.CountryYearSuicideAmount;
+import model.CountryYearToSuicideAmount;
 import model.SuicideInfoRecord;
 import org.apache.spark.sql.Dataset;
 
@@ -14,39 +14,44 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingInt;
 
 public class TopFiveYearsBySumOfSuicides {
+  private static final Integer LIMIT_OF_VIEW = 5;
 
-  public Map<String, Integer> get(Dataset<SuicideInfoRecord> data) {
+  public final Map<String, Integer> get(final Dataset<SuicideInfoRecord> data) {
     Map<String, Integer> map = getSumOfSuicidesInCountryByYear(data);
     Map<String, Integer> sortedMap = getSortedByValueMap(map);
     return sortedMap.entrySet().stream()
-            .limit(5)
+            .limit(LIMIT_OF_VIEW)
             .collect(Collectors
                     .toMap(
                             Map.Entry::getKey, Map.Entry::getValue,
                             (oldValue, newValue) -> oldValue, LinkedHashMap::new));
   }
 
-  private Map<String, Integer> getSumOfSuicidesInCountryByYear(Dataset<SuicideInfoRecord> data) {
+  private Map<String, Integer> getSumOfSuicidesInCountryByYear(
+          final Dataset<SuicideInfoRecord> data
+  ) {
     return getCountryYearSuicideAmountList(data).stream()
             .collect(
                     groupingBy(
-                            CountryYearSuicideAmount::getCountryYear,
-                            summingInt(CountryYearSuicideAmount::getAmountOfSuicideIntTheYear)
+                            CountryYearToSuicideAmount::getCountryYear,
+                            summingInt(CountryYearToSuicideAmount::getAmountOfSuicideIntTheYear)
                     )
             );
   }
 
-  private LinkedHashMap<String, Integer> getSortedByValueMap(Map<String, Integer> map) {
+  private LinkedHashMap<String, Integer> getSortedByValueMap(
+          final Map<String, Integer> map
+  ) {
     return map.entrySet().stream()
             .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                     (oldValue, newValue) -> oldValue, LinkedHashMap::new));
   }
 
-  private List<CountryYearSuicideAmount> getCountryYearSuicideAmountList(
-          Dataset<SuicideInfoRecord> data) {
+  private List<CountryYearToSuicideAmount> getCountryYearSuicideAmountList(
+          final Dataset<SuicideInfoRecord> data) {
     return data.collectAsList().stream().map(e ->
-            new CountryYearSuicideAmount(e.getCountryAndYear(), e.getAmountOfSuicides()))
+            new CountryYearToSuicideAmount(e.getCountryAndYear(), e.getAmountOfSuicides()))
             .collect(Collectors.toList());
   }
 }

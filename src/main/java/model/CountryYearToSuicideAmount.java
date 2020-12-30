@@ -1,10 +1,10 @@
 package model;
 
-public class CountryYearSuicideAmount {
+public class CountryYearToSuicideAmount {
   private String countryYear;
   private Integer amountOfSuicideIntTheYear;
 
-  public CountryYearSuicideAmount(
+  public CountryYearToSuicideAmount(
           String countryYear,
           Integer amountOfSuicideIntTheYear
   ) {
@@ -12,7 +12,7 @@ public class CountryYearSuicideAmount {
     this.amountOfSuicideIntTheYear = amountOfSuicideIntTheYear;
   }
 
-  public CountryYearSuicideAmount() {
+  public CountryYearToSuicideAmount() {
   }
 
   public String getCountryYear() {

@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.averagingDouble;
 import static java.util.stream.Collectors.groupingBy;
 
 public class AvgSuicideByOneHundred {
-  public Map<String, Double> get(Dataset<SuicideInfoRecord> data) {
+  public final Map<String, Double> get(Dataset<SuicideInfoRecord> data) {
     List<SuicideInfoRecord> list = data.collectAsList();
     return list.stream()
             .collect(
@@ -24,16 +24,12 @@ public class AvgSuicideByOneHundred {
             );
   }
 
-  public Map<String, Double> getSortedByDesc(
-          Dataset<SuicideInfoRecord> data
+  public final Map<String, Double> getSortedByDesc(
+          final Dataset<SuicideInfoRecord> data
   ) {
     return get(data).entrySet().stream()
             .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                     (oldValue, newValue) -> oldValue, LinkedHashMap::new));
   }
-
-
-
-
 }
