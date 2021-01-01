@@ -34,9 +34,10 @@ public class Runner {
             .entrySet().forEach(System.out::println);
 
     //Task 4
-    List<CountryYearToSuicideAmountToGdp> dataToWriteAsParquet = gdpAndCount
+    List<CountryYearToSuicideAmountToGdp> data = gdpAndCount
             .get(dataProvider.getDataSet());
 
-    ioProvider.writeAsParquetFile(dataToWriteAsParquet);
+    ioProvider.writeAsParquetFile(data);
+    ioProvider.writeAsCsvFile(data);
   }
 }
