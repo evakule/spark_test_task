@@ -22,7 +22,6 @@ public class Runner {
     topFive.get(dataProvider.getDataSet())
             .forEach(System.out::println);
 
-
     //Task 2
     avgOneHundred.get(dataProvider.getDataSet())
             .foreach(data -> System.out.println(data._1 + " -- " + data._2));
@@ -30,7 +29,6 @@ public class Runner {
     //Task 3
     countryAndAge.get(dataProvider.getDataSet())
             .foreach(data -> System.out.println(data._1 + " -- " + data._2));
-
 
 //  Task 4
     List<CountryYearToSuicideAmountToGdp> data = gdpAndCount

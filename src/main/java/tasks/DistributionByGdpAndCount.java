@@ -14,19 +14,14 @@ public class DistributionByGdpAndCount {
           final Dataset<SuicideInfoRecord> data
   ) {
     return data.toJavaRDD()
-            .mapToPair(
-                    s -> new Tuple2<>(
-                            s.getCountryAndYear() + "," + s.getGDPPerOnePerson(),
-                            s.getAmountOfSuicides()))
-            .reduceByKey(Integer::sum)
-            .map(refactorOutput);
+            .mapToPair(s -> new Tuple2<>(
+                    s.getCountryAndYear(),
+                    new Tuple2<>(s.getAmountOfSuicides(), s.getGDPPerOnePerson())
+            ))
+            .reduceByKey((x, y) -> new Tuple2<>(x._1() + y._1(), x._2))
+            .map(collectToObject);
   }
 
-  Function<Tuple2<String, Integer>, CountryYearToSuicideAmountToGdp> refactorOutput = s -> {
-    int commaIndex = s._1().indexOf(",");
-    String countryYear = s._1().substring(0, commaIndex);
-    Integer gdpPerOnePerson = Integer.valueOf(s._1().substring(commaIndex + 1));
-    Integer suicideAmount = s._2();
-    return new CountryYearToSuicideAmountToGdp(countryYear, suicideAmount, gdpPerOnePerson);
-  };
+  private Function<Tuple2<String, Tuple2<Integer, Integer>>, CountryYearToSuicideAmountToGdp>
+          collectToObject = s -> new CountryYearToSuicideAmountToGdp(s._1(), s._2()._1(), s._2()._2());
 }
