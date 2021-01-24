@@ -1,35 +1,17 @@
 package tasks;
 
 import model.SuicideInfoRecord;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.sql.Dataset;
-
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.averagingDouble;
-import static java.util.stream.Collectors.groupingBy;
+import scala.Tuple2;
 
 public class AvgSuicideByOneHundred {
-  public final Map<String, Double> get(Dataset<SuicideInfoRecord> data) {
-    List<SuicideInfoRecord> list = data.collectAsList();
-    return list.stream()
-            .collect(
-                    groupingBy(
-                            SuicideInfoRecord::getCountry,
-                            averagingDouble(SuicideInfoRecord::getSuicidesPer100k)
-                    )
-            );
-  }
-
-  public final Map<String, Double> getSortedByDesc(
-          final Dataset<SuicideInfoRecord> data
-  ) {
-    return get(data).entrySet().stream()
-            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                    (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+  public final JavaPairRDD<String, Double> get(Dataset<SuicideInfoRecord> data) {
+    return data.toJavaRDD().mapToPair(
+            x -> new Tuple2<>(x.getCountryAndYear(), x.getSuicidesPer100k() / 12)
+    ).reduceByKey(Double::sum)
+            .mapToPair(s -> new Tuple2<>(s._2(), s._1()))
+            .sortByKey(false)
+            .mapToPair(s -> new Tuple2<>(s._2(), s._1()));
   }
 }

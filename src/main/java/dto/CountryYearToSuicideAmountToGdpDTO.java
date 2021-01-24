@@ -6,13 +6,13 @@ public class CountryYearToSuicideAmountToGdpDTO {
   private String year;
   private String country;
   private Integer suicideAmount;
-  private Double gdpPerOnePerson;
+  private Integer gdpPerOnePerson;
 
   public CountryYearToSuicideAmountToGdpDTO(
           String year,
           String country,
           Integer suicideAmount,
-          Double gdpPerOnePerson
+          Integer gdpPerOnePerson
   ) {
     this.year = year;
     this.country = country;
@@ -44,11 +44,11 @@ public class CountryYearToSuicideAmountToGdpDTO {
     this.suicideAmount = suicideAmount;
   }
 
-  public Double getGdpPerOnePerson() {
+  public Integer getGdpPerOnePerson() {
     return gdpPerOnePerson;
   }
 
-  public void setGdpPerOnePerson(Double gdpPerOnePerson) {
+  public void setGdpPerOnePerson(Integer gdpPerOnePerson) {
     this.gdpPerOnePerson = gdpPerOnePerson;
   }
 

@@ -8,7 +8,6 @@ import tasks.TopFiveYearsBySumOfSuicides;
 
 import java.util.List;
 
-
 public class Runner {
   public static void main(String[] args) {
     DataProvider dataProvider = new DataProvider();
@@ -21,21 +20,22 @@ public class Runner {
 
     //Task 1
     topFive.get(dataProvider.getDataSet())
-            .entrySet()
             .forEach(System.out::println);
 
+
     //Task 2
-    avgOneHundred.getSortedByDesc(dataProvider.getDataSet())
-            .entrySet()
-            .forEach(System.out::println);
+    avgOneHundred.get(dataProvider.getDataSet())
+            .foreach(data -> System.out.println(data._1 + " -- " + data._2));
 
     //Task 3
     countryAndAge.get(dataProvider.getDataSet())
-            .entrySet().forEach(System.out::println);
+            .foreach(data -> System.out.println(data._1 + " -- " + data._2));
 
-    //Task 4
+
+//  Task 4
     List<CountryYearToSuicideAmountToGdp> data = gdpAndCount
-            .get(dataProvider.getDataSet());
+            .get(dataProvider.getDataSet()).collect();
+    data.forEach(System.out::println);
 
     ioProvider.writeAsParquetFile(data);
     ioProvider.writeAsCsvFile(data);

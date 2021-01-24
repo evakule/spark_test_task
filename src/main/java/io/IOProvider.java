@@ -9,7 +9,6 @@ import org.apache.spark.sql.SparkSession;
 
 import java.util.List;
 
-
 public final class IOProvider {
   private static final String OUT_PATH_PARQUET_FILE = "C:/Users/enric/"
           + "IdeaProjects/study/humanlves/spark/output/parquet";

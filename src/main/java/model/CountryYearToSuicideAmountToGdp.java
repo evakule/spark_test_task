@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class CountryYearToSuicideAmountToGdp implements Serializable {
   private String countryYear;
   private Integer suicideAmount;
-  private Double gdpPerOnePerson;
+  private Integer gdpPerOnePerson;
 
   public CountryYearToSuicideAmountToGdp(
           String countryYear,
           Integer suicideAmount,
-          Double gdpPerOnePerson
+          Integer gdpPerOnePerson
   ) {
     this.countryYear = countryYear;
     this.suicideAmount = suicideAmount;
@@ -33,11 +33,11 @@ public class CountryYearToSuicideAmountToGdp implements Serializable {
     this.suicideAmount = suicideAmount;
   }
 
-  public Double getGdpPerOnePerson() {
+  public Integer getGdpPerOnePerson() {
     return gdpPerOnePerson;
   }
 
-  public void setGdpPerOnePerson(Double gdpPerOnePerson) {
+  public void setGdpPerOnePerson(Integer gdpPerOnePerson) {
     this.gdpPerOnePerson = gdpPerOnePerson;
   }
 
